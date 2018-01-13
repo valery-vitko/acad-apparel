@@ -30,7 +30,7 @@ namespace ACAD.Common.Testing
             var nunitArgs = new string[]
             {
                 "--trace=Verbose",
-                "--wait" // Wait for input before closing console window (PAUSE)
+                //"--wait" // Wait for input before closing console window (PAUSE)
             };
 
             var failedTestCount = new AutoRun(testAssembly).Execute(nunitArgs, new TestRunnerConsoleTextWriter(), Console.In);

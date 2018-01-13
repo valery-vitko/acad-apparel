@@ -51,8 +51,8 @@ namespace ACAD.Common.Testing
                                 {
                                     exceptionToThrown = ex;
                                     tr.Commit();
-
                                     //stop execution of actions
+
                                     break;
                                 }
 
@@ -67,6 +67,81 @@ namespace ACAD.Common.Testing
                 }//database
 
             }//lock document
+
+            //throw exception outside of transaction
+            //Sometimes Autocad crashes when exception throws
+            if (exceptionToThrown != null)
+            {
+                throw exceptionToThrown;
+            }
+        }
+
+        public static void ExecuteActionsInDwg(String drawingPath, params Func<Database, Transaction, string>[] actionList)
+        {
+            bool buildDefaultDrawing;
+
+            if (String.IsNullOrEmpty(drawingPath))
+            {
+                buildDefaultDrawing = true;
+            }
+            else
+            {
+                buildDefaultDrawing = false;
+
+                if (!File.Exists(drawingPath))
+                {
+                    Assert.Fail("The file '{0}' doesn't exist", drawingPath);
+                    return;
+                }
+            }
+
+            Exception exceptionToThrown = null;
+
+            string saveAsFilename = null;
+
+            var doc = Application.DocumentManager.MdiActiveDocument;
+            using (doc.LockDocument())
+            {
+                using (Database db = new Database(buildDefaultDrawing, true))
+                {
+                    if (!String.IsNullOrEmpty(drawingPath))
+                        db.ReadDwgFile(drawingPath, FileOpenMode.OpenForReadAndWriteNoShare, true, null);
+
+
+                    using (new Helpers.WorkingDatabaseSwitcher(db))
+                    {
+                        foreach (var item in actionList)
+                        {
+                            using (Transaction tr = db.TransactionManager.StartTransaction())
+                            {
+                                try
+                                {
+                                    saveAsFilename = item(db, tr);
+                                }
+                                catch (Exception ex)
+                                {
+                                    exceptionToThrown = ex;
+                                    tr.Commit();
+
+                                    //stop execution of actions
+                                    break;
+                                }
+
+                                tr.Commit();
+
+                            }//transaction
+
+                        }//foreach
+
+                    }//change WorkingDatabase
+
+                    if (!string.IsNullOrEmpty(saveAsFilename))
+                        db.SaveAs(saveAsFilename, DwgVersion.Current);
+
+                }//database
+
+            }//lock document
+
 
             //throw exception outside of transaction
             //Sometimes Autocad crashes when exception throws
