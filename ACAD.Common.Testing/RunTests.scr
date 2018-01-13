@@ -1,0 +1,3 @@
+﻿SECURELOAD 0
+netload "D:\Projects\Private\ACAD\reps\acad-apparel\ACAD.Common.Testing\bin\Debug\ACAD.Common.Testing.dll"
+(RunTests "")
