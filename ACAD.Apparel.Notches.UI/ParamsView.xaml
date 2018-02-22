@@ -4,8 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:ACAD.Apparel.Notches.UI"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="500"
+             mc:Ignorable="d"
+             d:DesignWidth="500" d:DesignHeight="300"
              d:DataContext="{d:DesignInstance local:TestParamsViewModel}">
     <Grid>
         <Grid.RowDefinitions>
@@ -13,18 +13,18 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <WrapPanel HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="0">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Row="0">
             <Label Content="Длина исх.:" />
-            <TextBox Text="{Binding LengthSource}" Width="60" IsReadOnly="True" />
+            <TextBox Text="{Binding LengthSource}" Width="60" IsReadOnly="True" VerticalAlignment="Center" />
             <Label Content="Длина вых.:" />
-            <TextBox Text="{Binding LengthDestination}" Width="60" IsReadOnly="True" />
+            <TextBox Text="{Binding LengthDestination}" Width="60" IsReadOnly="True" VerticalAlignment="Center" />
             <Label Content="Посадка:" />
-            <TextBox Text="{Binding Difference}" Width="60" IsReadOnly="True" />
-        </WrapPanel>
+            <Label Content="{Binding Difference}" Width="60" />
+        </StackPanel>
         <Label Content="Обечайки:" Grid.Row="1" />
         <DataGrid ItemsSource="{Binding Facets}"
                   AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserSortColumns="False"
-                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2">
+                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5" Grid.Row="2">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="№" Binding="{Binding Label}" />
                 <DataGridTextColumn Header="Длина исх." Binding="{Binding LengthSource}" />

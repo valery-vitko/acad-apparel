@@ -23,7 +23,7 @@ namespace ACAD.Apparel.Notches.UI
         public double AdjustmentPercentage { get; set; } = 0;
     }
 
-    internal class TestParamsViewModel : ParamsViewModel
+    public class TestParamsViewModel : ParamsViewModel
     {
         public TestParamsViewModel()
         {
