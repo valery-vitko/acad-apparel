@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="ACAD.Apparel.Notches.UI.ParamsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ACAD.Apparel.Notches.UI"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="500"
+             d:DataContext="{d:DesignInstance local:TestParamsViewModel}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <WrapPanel HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="0">
+            <Label Content="Длина исх.:" />
+            <TextBox Text="{Binding LengthSource}" Width="60" IsReadOnly="True" />
+            <Label Content="Длина вых.:" />
+            <TextBox Text="{Binding LengthDestination}" Width="60" IsReadOnly="True" />
+            <Label Content="Посадка:" />
+            <TextBox Text="{Binding Difference}" Width="60" IsReadOnly="True" />
+        </WrapPanel>
+        <Label Content="Обечайки:" Grid.Row="1" />
+        <DataGrid ItemsSource="{Binding Facets}"
+                  AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserSortColumns="False"
+                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="№" Binding="{Binding Label}" />
+                <DataGridTextColumn Header="Длина исх." Binding="{Binding LengthSource}" />
+                <DataGridTemplateColumn Header="% посадки">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding AdjustmentPercentage}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

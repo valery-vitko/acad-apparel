@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACAD.Common.Testing", "ACAD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACAD.Apparel.Notches", "ACAD.Apparel.Notches\ACAD.Apparel.Notches.csproj", "{5D947414-3DCE-4F02-87D4-BA21378F7C47}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACAD.Apparel.Notches.UI", "ACAD.Apparel.Notches.UI\ACAD.Apparel.Notches.UI.csproj", "{39ECBC61-C492-410B-9EBF-1E476CE71BAA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug (GUI)|Any CPU = Debug (GUI)|Any CPU
@@ -34,6 +36,12 @@ Global
 		{5D947414-3DCE-4F02-87D4-BA21378F7C47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D947414-3DCE-4F02-87D4-BA21378F7C47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D947414-3DCE-4F02-87D4-BA21378F7C47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39ECBC61-C492-410B-9EBF-1E476CE71BAA}.Debug (GUI)|Any CPU.ActiveCfg = Debug|Any CPU
+		{39ECBC61-C492-410B-9EBF-1E476CE71BAA}.Debug (GUI)|Any CPU.Build.0 = Debug|Any CPU
+		{39ECBC61-C492-410B-9EBF-1E476CE71BAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39ECBC61-C492-410B-9EBF-1E476CE71BAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39ECBC61-C492-410B-9EBF-1E476CE71BAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39ECBC61-C492-410B-9EBF-1E476CE71BAA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
