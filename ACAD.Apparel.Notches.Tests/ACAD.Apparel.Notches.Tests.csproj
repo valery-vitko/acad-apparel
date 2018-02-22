@@ -83,9 +83,9 @@
     <None Include="RunTests.scr" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ACAD.Apparel.Notches\ACAD.Apparel.Notches.csproj">
+    <ProjectReference Include="..\ACAD.Apparel.Notches.Core\ACAD.Apparel.Notches.Core.csproj">
       <Project>{5d947414-3dce-4f02-87d4-ba21378f7c47}</Project>
-      <Name>ACAD.Apparel.Notches</Name>
+      <Name>ACAD.Apparel.Notches.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\ACAD.Common.Testing\ACAD.Common.Testing.csproj">
       <Project>{4b0ecf2a-3997-451a-97c7-bfbea1a85ff4}</Project>

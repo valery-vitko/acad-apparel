@@ -1,15 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2020
+VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACAD.Apparel.Notches.Tests", "ACAD.Apparel.Notches.Tests\ACAD.Apparel.Notches.Tests.csproj", "{E251D45B-21FB-413B-A913-F7E743C4BCC3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACAD.Common.Testing", "ACAD.Common.Testing\ACAD.Common.Testing.csproj", "{4B0ECF2A-3997-451A-97C7-BFBEA1A85FF4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACAD.Apparel.Notches", "ACAD.Apparel.Notches\ACAD.Apparel.Notches.csproj", "{5D947414-3DCE-4F02-87D4-BA21378F7C47}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACAD.Apparel.Notches.UI", "ACAD.Apparel.Notches.UI\ACAD.Apparel.Notches.UI.csproj", "{39ECBC61-C492-410B-9EBF-1E476CE71BAA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACAD.Apparel.Notches.Core", "ACAD.Apparel.Notches.Core\ACAD.Apparel.Notches.Core.csproj", "{5D947414-3DCE-4F02-87D4-BA21378F7C47}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,18 +30,18 @@ Global
 		{4B0ECF2A-3997-451A-97C7-BFBEA1A85FF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B0ECF2A-3997-451A-97C7-BFBEA1A85FF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B0ECF2A-3997-451A-97C7-BFBEA1A85FF4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5D947414-3DCE-4F02-87D4-BA21378F7C47}.Debug (GUI)|Any CPU.ActiveCfg = Debug|Any CPU
-		{5D947414-3DCE-4F02-87D4-BA21378F7C47}.Debug (GUI)|Any CPU.Build.0 = Debug|Any CPU
-		{5D947414-3DCE-4F02-87D4-BA21378F7C47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5D947414-3DCE-4F02-87D4-BA21378F7C47}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5D947414-3DCE-4F02-87D4-BA21378F7C47}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5D947414-3DCE-4F02-87D4-BA21378F7C47}.Release|Any CPU.Build.0 = Release|Any CPU
 		{39ECBC61-C492-410B-9EBF-1E476CE71BAA}.Debug (GUI)|Any CPU.ActiveCfg = Debug|Any CPU
 		{39ECBC61-C492-410B-9EBF-1E476CE71BAA}.Debug (GUI)|Any CPU.Build.0 = Debug|Any CPU
 		{39ECBC61-C492-410B-9EBF-1E476CE71BAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{39ECBC61-C492-410B-9EBF-1E476CE71BAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39ECBC61-C492-410B-9EBF-1E476CE71BAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39ECBC61-C492-410B-9EBF-1E476CE71BAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D947414-3DCE-4F02-87D4-BA21378F7C47}.Debug (GUI)|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D947414-3DCE-4F02-87D4-BA21378F7C47}.Debug (GUI)|Any CPU.Build.0 = Debug|Any CPU
+		{5D947414-3DCE-4F02-87D4-BA21378F7C47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D947414-3DCE-4F02-87D4-BA21378F7C47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D947414-3DCE-4F02-87D4-BA21378F7C47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D947414-3DCE-4F02-87D4-BA21378F7C47}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
