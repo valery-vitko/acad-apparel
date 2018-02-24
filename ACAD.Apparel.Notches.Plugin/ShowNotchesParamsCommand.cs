@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.Windows.Forms;
-using System.Windows.Forms.Integration;
 using System.Windows.Input;
 using Autodesk.AutoCAD.Windows;
 
@@ -33,15 +31,17 @@ namespace ACAD.Apparel.Notches.Plugin
                     DockEnabled = DockSides.Left | DockSides.Right | DockSides.Bottom
                 };
 
-                var paramsView = new UI.ParamsView();
-                paramsView.DataContext = new UI.TestParamsViewModel();
+                var plugin = new NotchesPlugin();
+                var paramsView = new UI.ParamsView { DataContext = plugin.Params };
 
-                var host = new ElementHost();
+                var host = new System.Windows.Forms.Integration.ElementHost();
                 host.AutoSize = true;
-                host.Dock = DockStyle.Fill;
+                host.Dock = System.Windows.Forms.DockStyle.Fill;
                 host.Child = paramsView;
 
                 PaletteSet.Add("ParamsView ElementHost", host);
+
+                plugin.Init();
             }
 
             PaletteSet.KeepFocus = true;

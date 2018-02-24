@@ -2,40 +2,74 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Input;
 
 namespace ACAD.Apparel.Notches.UI
 {
     public class ParamsViewModel : ObservableObject
     {
-        public double LengthSource { get; set; }
-        public double LengthDestination { get; set; }
-        public double Difference => LengthSource - LengthDestination;
+        public double SourceLength { get; set; }
+        public double TargetLength { get; set; }
+        public double Adjustment => SourceLength - TargetLength;
 
-        public ObservableCollection<NotchFacetViewModel> Facets { get; set; } = new ObservableCollection<NotchFacetViewModel>();
+        public bool IsInverted { get; set; } = false;
+
+        public ObservableCollection<NotchFacetViewModel> Facets { get; } = new ObservableCollection<NotchFacetViewModel>();
+
+        public ICommand ReadSelection { get; set; }
+        public ICommand UpdateDestinationNotches { get; set; }
+
+        public void RegenerateFacets(double totalAdjustment, IList<double> sourceFacetLengths)
+        {
+            Facets.Clear();
+
+            for (int i = 0; i < sourceFacetLengths.Count; i++)
+                Facets.Add(new NotchFacetViewModel(i, sourceFacetLengths[i], totalAdjustment));
+        }
+
+        public void Clear()
+        {
+            SourceLength = 0;
+            TargetLength = 0;
+            Facets.Clear();
+        }
+
+        public void Error(string message)
+        {
+            // TODO
+        }
     }
 
     public class NotchFacetViewModel : ObservableObject
     {
-        public int FromNotch { get; set; }
-        public int ToNotch { get; set; }
-        public string Label => $"{FromNotch} - {ToNotch}";
-        public double SourceLength { get; set; }
-        public double DestinationLength { get; set; }
+        private readonly int index;
+        private readonly double totalAdjustment;
+
+        public NotchFacetViewModel(int index, double sourceLength, double totalAdjustment)
+        {
+            this.index = index;
+            SourceLength = sourceLength;
+            this.totalAdjustment = totalAdjustment;
+        }
+
+        public string Label => $"{index} - {index + 1}";
+        public double SourceLength { get; }
         public double AdjustmentPercentage { get; set; } = 0;
+        public double TargetLength => SourceLength + totalAdjustment * AdjustmentPercentage / 100.0;
     }
 
     public class TestParamsViewModel : ParamsViewModel
     {
         public TestParamsViewModel()
         {
-            LengthSource = 100.1;
-            LengthDestination = 110;
+            SourceLength = 100.1;
+            TargetLength = 110;
 
-            Facets.Add(new NotchFacetViewModel { FromNotch = 0, ToNotch = 1, SourceLength = 5 });
-            Facets.Add(new NotchFacetViewModel { FromNotch = 1, ToNotch = 3, SourceLength = 5.1 });
-            Facets.Add(new NotchFacetViewModel { FromNotch = 3, ToNotch = 4, SourceLength = 5.1 });
-            Facets.Add(new NotchFacetViewModel { FromNotch = 4, ToNotch = 5, SourceLength = 5.1 });
-            Facets.Add(new NotchFacetViewModel { FromNotch = 5, ToNotch = 6, SourceLength = 5.1 });
+            Facets.Add(new NotchFacetViewModel(0, 5, Adjustment));
+            Facets.Add(new NotchFacetViewModel(1, 5.1, Adjustment));
+            Facets.Add(new NotchFacetViewModel(3, 5.1, Adjustment));
+            Facets.Add(new NotchFacetViewModel(4, 5.1, Adjustment));
+            Facets.Add(new NotchFacetViewModel(5, 5.1, Adjustment));
         }
     }
 }

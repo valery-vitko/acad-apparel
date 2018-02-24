@@ -16,9 +16,9 @@ namespace ACAD.Apparel.Notches.Tests
         [Test]
         public void ShouldCreateCalculator()
         {
-            DwgTest.ExecuteActionsInDwg(KnownValues.Notches1.DrawingPath, (db, trans) =>
+            DwgTest.ExecuteActionsInDwg(KnownValues.Notches1.DrawingPath, (db, tx) =>
             {
-                var calculator = KnownValues.Notches1.ToCalculator(db, trans);
+                var calculator = KnownValues.Notches1.ToProjector(db, tx);
                 calculator.ShouldNotBeNull();
             });
         }
@@ -26,26 +26,13 @@ namespace ACAD.Apparel.Notches.Tests
         [Test]
         public void ShouldProject()
         {
-            DwgTest.ExecuteActionsInDwg(KnownValues.Notches1.DrawingPath, (db, trans) =>
+            DwgTest.ExecuteActionsInDwg(KnownValues.Notches1.DrawingPath, (db, tx) =>
             {
-                var calculator = KnownValues.Notches1.ToCalculator(db, trans);
-                var targetNotches = calculator.Project();
+                var projector = KnownValues.Notches1.ToProjector(db, tx);
+                var targetNotches = projector.Project();
 
-                var bt = (BlockTable)trans.GetObject(db.BlockTableId, OpenMode.ForRead);
-                var blockTableRecord = (BlockTableRecord)trans.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite);
-
-                foreach (var notch in targetNotches)
-                {
-                    using (var notchPoint = new DBPoint(notch))
-                    {
-                        blockTableRecord.AppendEntity(notchPoint);
-                        trans.AddNewlyCreatedDBObject(notchPoint, add: true);
-                    }
-                }
-
-                // Set the style for all point objects in the drawing
-                db.Pdmode = 34;
-                db.Pdsize = 1;
+                AcadHelpers.GeneratePoints(db, tx, targetNotches);
+                AcadHelpers.ConfigurePointsToBeVisible(db);
 
                 return KnownValues.Notches1.GenerateSnapshotDrawingPath();
             });

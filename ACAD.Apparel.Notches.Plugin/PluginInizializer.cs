@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
+using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Ribbon;
+using Autodesk.AutoCAD.Runtime;
 using Autodesk.Windows;
 
 namespace ACAD.Apparel.Notches.Plugin
@@ -46,6 +48,14 @@ namespace ACAD.Apparel.Notches.Plugin
 
             // For testing purposes:
             ribbonTab.IsActive = true;
+        }
+
+        [LispFunction("ShowNotches")]
+        public void RunTests(ResultBuffer args)
+        {
+            var command = new ShowNotchesParamsCommand();
+            if (command.CanExecute(null))
+                command.Execute(null);
         }
     }
 }

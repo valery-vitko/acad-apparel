@@ -11,16 +11,24 @@ namespace ACAD.Apparel.Notches
         private readonly Curve sourceCurve;
         private readonly IEnumerable<Point3d> sourceNotches;
         private readonly Curve targetCurve;
-        private readonly IEnumerable<double> targetFacetAdjustmentPercentages;
 
-        public bool Inverted { get; set; } = true;
+        public List<double> TargetFacetAdjustmentPercentages { get; }
 
-        public Projector(Curve sourceCurve, IEnumerable<Point3d> sourceNotches, Curve targetCurve, IEnumerable<double> targetFacetAdjustmentPercentages)
+        public bool IsInverted { get; set; } = true;
+
+        public Projector(Curve sourceCurve, IEnumerable<Point3d> sourceNotches, Curve targetCurve, IEnumerable<double> targetFacetAdjustmentPercentages = null)
         {
             this.sourceCurve = sourceCurve;
             this.sourceNotches = sourceNotches;
             this.targetCurve = targetCurve;
-            this.targetFacetAdjustmentPercentages = targetFacetAdjustmentPercentages;
+
+            this.TargetFacetAdjustmentPercentages = new List<double>(targetFacetAdjustmentPercentages ?? new double[0]);
+        }
+
+        public static Projector FromNotchLines(Curve sourceCurve, IEnumerable<Line> sourceNotchLines, Curve targetCurve, IEnumerable<double> targetFacetAdjustmentPercentages = null)
+        {
+            var sourceNotches = sourceNotchLines.Select(line => AcadHelpers.GetSingleIntersection(sourceCurve, line)).ToList();
+            return new Projector(sourceCurve, sourceNotches, targetCurve, targetFacetAdjustmentPercentages);
         }
 
         public Point3d[] Project()
@@ -34,14 +42,14 @@ namespace ACAD.Apparel.Notches
 
             double accumulatedAdjustment = 0;
 
-            foreach (var (sourceNotch, adjustmentFractionPercentage) in sourceNotches.Zip(targetFacetAdjustmentPercentages, (notch, adj) => (notch, adj)))
+            foreach (var (sourceNotch, adjustmentFractionPercentage) in sourceNotches.Zip(TargetFacetAdjustmentPercentages, (notch, adj) => (notch, adj)))
             {
                 var sourceFacetDist = sourceCurve.GetDistAtPoint(sourceNotch);
 
                 accumulatedAdjustment += adjustment * adjustmentFractionPercentage / 100.0;
                 var targetFacetDist = sourceFacetDist + accumulatedAdjustment;
 
-                if (Inverted)
+                if (IsInverted)
                     targetFacetDist = targetLength - targetFacetDist;
 
                 var targetNotch = targetCurve.GetPointAtDist(targetFacetDist);
@@ -49,6 +57,41 @@ namespace ACAD.Apparel.Notches
             }
 
             return targetNotches.ToArray();
+        }
+
+        public Stats GetFacetStats()
+        {
+            var sourceLength = AcadHelpers.GetCurveLength(sourceCurve);
+
+            return new Stats
+            {
+                SourceLength = sourceLength,
+                TargetLength = AcadHelpers.GetCurveLength(targetCurve),
+                SourceFacetLengths = GetSourceFacetLengts(sourceLength).ToList()
+            };
+        }
+
+        private IEnumerable<double> GetSourceFacetLengts(double totalLength)
+        {
+            var previousNotchDist = 0.0;
+
+            foreach (var sourceNotch in sourceNotches)
+            {
+                var sourceFacetDist = sourceCurve.GetDistAtPoint(sourceNotch);
+                yield return sourceFacetDist - previousNotchDist;
+                previousNotchDist = sourceFacetDist;
+            }
+
+            yield return totalLength - previousNotchDist;
+        }
+
+        public class Stats
+        {
+            public double SourceLength { get; set; }
+            public double TargetLength { get; set; }
+            public double Adjustment => SourceLength - TargetLength;
+
+            public IList<double> SourceFacetLengths { get; set; }
         }
     }
 }

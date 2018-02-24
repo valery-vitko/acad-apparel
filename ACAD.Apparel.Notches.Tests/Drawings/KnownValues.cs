@@ -70,7 +70,7 @@ namespace ACAD.Apparel.Notches.Tests.Drawings
 
         public Handle TargetCurveHandle { get; set; }
 
-        public Projector ToCalculator(Database db, Transaction trans)
+        public Projector ToProjector(Database db, Transaction trans)
         {
             var sourceCurve = AcadHelpers.GetObject<Polyline>(SourceCurveHandle, db, trans);
             var targetCurve = AcadHelpers.GetObject<Polyline>(TargetCurveHandle, db, trans);
