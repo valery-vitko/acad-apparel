@@ -39,11 +39,16 @@ namespace ACAD.Apparel.Notches.Plugin
             ribbonPanel.Source = ribbonPanelSource;
             ribbonTab.Panels.Add(ribbonPanel);
 
-            var showNotchesParamsButton = new RibbonCommandButton();
-            showNotchesParamsButton.ShowImage = false;
-            showNotchesParamsButton.ShowText = true;
-            showNotchesParamsButton.Text = "Show Notches";
-            showNotchesParamsButton.CommandHandler = new ShowNotchesParamsCommand();
+            var showNotchesParamsButton = new Autodesk.AutoCAD.Ribbon.RibbonCommandButton
+            {
+                Size = RibbonItemSize.Large,
+                Orientation = System.Windows.Controls.Orientation.Vertical,
+                ShowImage = true,
+                LargeImage = ImageHelper.ImageSourceForBitmap(Properties.Resources.ShowNotchesParamsRibbonButtonIcon),
+                ShowText = true,
+                Text = $"Show{Environment.NewLine}Notches",
+                CommandHandler = new ShowNotchesParamsCommand()
+            };
             ribbonPanel.Items.Add(showNotchesParamsButton);
 
             // For testing purposes:
