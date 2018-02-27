@@ -8,6 +8,8 @@ namespace ACAD.Apparel.Notches
 {
     public class Projector
     {
+        private static Logger logger = new Logger("Notches (Projection)");
+
         private readonly Curve sourceCurve;
         private readonly IEnumerable<Point3d> sourceNotches;
         private readonly Curve targetCurve;
@@ -52,8 +54,16 @@ namespace ACAD.Apparel.Notches
                 if (IsInverted)
                     targetFacetDist = targetLength - targetFacetDist;
 
-                var targetNotch = targetCurve.GetPointAtDist(targetFacetDist);
-                targetNotches.Add(targetNotch);
+                // Check if the target notch point is still on the curve, .GetPointAtDist will fail otherwise
+                if (targetFacetDist <= targetLength)
+                {
+                    var targetNotch = targetCurve.GetPointAtDist(targetFacetDist);
+                    targetNotches.Add(targetNotch);
+                }
+                else
+                {
+                    logger.Warn($"Target notch point at {targetFacetDist:N2} exceeds target curve length of {targetLength:N2} and can't be set");
+                }
             }
 
             return targetNotches.ToArray();

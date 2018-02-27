@@ -98,7 +98,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExceptionHandler.cs" />
-    <Compile Include="Logger.cs" />
     <Compile Include="NotchesPlugin.cs" />
     <Compile Include="PluginInizializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

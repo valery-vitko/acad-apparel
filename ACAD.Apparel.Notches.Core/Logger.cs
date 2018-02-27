@@ -1,6 +1,6 @@
 ﻿using Autodesk.AutoCAD.ApplicationServices.Core;
 
-namespace ACAD.Apparel.Notches.Plugin
+namespace ACAD.Apparel.Notches
 {
     public class Logger
     {
@@ -16,6 +16,11 @@ namespace ACAD.Apparel.Notches.Plugin
         }
 
         public void Debug(string message)
+        {
+            WriteLine(message);
+        }
+
+        public void Warn(string message)
         {
             WriteLine(message);
         }
