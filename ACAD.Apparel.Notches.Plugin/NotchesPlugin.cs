@@ -30,6 +30,43 @@ namespace ACAD.Apparel.Notches.Plugin
 
         public void Init()
         {
+            TrySubscribeSelectionTracking(Application.DocumentManager.MdiActiveDocument);
+
+            Application.DocumentManager.DocumentActivated += DocumentManager_DocumentActivated;
+            Application.DocumentManager.DocumentToBeDeactivated += DocumentManager_DocumentToBeDeactivated;
+        }
+
+        private void DocumentManager_DocumentActivated(object sender, Autodesk.AutoCAD.ApplicationServices.DocumentCollectionEventArgs e)
+        {
+            TrySubscribeSelectionTracking(e.Document);
+        }
+
+        private void DocumentManager_DocumentToBeDeactivated(object sender, Autodesk.AutoCAD.ApplicationServices.DocumentCollectionEventArgs e)
+        {
+            TryUnsubscribeSelectionTracking(e.Document);
+        }
+
+        private void TrySubscribeSelectionTracking(Document document)
+        {
+            // Check if a drawing and not a some other kind of tab
+            if (document == null)
+                return;
+
+            document.ImpliedSelectionChanged += Document_ImpliedSelectionChanged;
+        }
+
+        private void TryUnsubscribeSelectionTracking(Document document)
+        {
+            // Check if a drawing and not a some other kind of tab
+            if (document == null)
+                return;
+
+            document.ImpliedSelectionChanged -= Document_ImpliedSelectionChanged;
+        }
+
+        private void Document_ImpliedSelectionChanged(object sender, EventArgs e)
+        {
+            ReadSelection();
         }
 
         public void ReadSelection()
