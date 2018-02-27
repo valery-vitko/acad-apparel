@@ -64,11 +64,8 @@ namespace ACAD.Apparel.Notches.Plugin
                     return;
                 }
 
-                var sourceCurve = curves[0];
-                var targetCurve = curves[1];
                 var notchLines = objects.OfType<Line>();
-
-                projector = Projector.FromNotchLines(sourceCurve, notchLines, targetCurve);
+                projector = Projector.FromNotchLines(curves[0], curves[1], notchLines);
                 UpdateParamsFromProjector();
 
                 tx.Commit();

@@ -34,12 +34,18 @@ namespace ACAD.Apparel.Notches
 
         public static Point3d GetSingleIntersection(Curve /* TODO: Polyline only? */ curve, Line line)
         {
-            var intersections = new Point3dCollection();
-            line.IntersectWith(curve, Intersect.OnBothOperands, intersections, IntPtr.Zero, IntPtr.Zero);
+            var intersections = GetIntersections(curve, line);
             if (intersections.Count != 1)
                 throw new InvalidOperationException($"Expected single intersection for {line.Handle} over {curve.Handle}, but got {intersections.Count}");
 
             return intersections[0];
+        }
+
+        public static Point3dCollection GetIntersections(Curve /* TODO: Polyline only? */ curve, Line line)
+        {
+            var intersections = new Point3dCollection();
+            line.IntersectWith(curve, Intersect.OnBothOperands, intersections, IntPtr.Zero, IntPtr.Zero);
+            return intersections;
         }
 
         public static double GetCurveLength(Curve sourceCurve)

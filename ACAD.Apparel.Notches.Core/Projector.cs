@@ -27,10 +27,37 @@ namespace ACAD.Apparel.Notches
             this.TargetFacetAdjustmentPercentages = new List<double>(targetFacetAdjustmentPercentages ?? new double[0]);
         }
 
-        public static Projector FromNotchLines(Curve sourceCurve, IEnumerable<Line> sourceNotchLines, Curve targetCurve, IEnumerable<double> targetFacetAdjustmentPercentages = null)
+        public static Projector FromNotchLines(Curve curve1, Curve curve2, IEnumerable<Line> notchLines, IEnumerable<double> targetFacetAdjustmentPercentages = null)
         {
-            var sourceNotches = sourceNotchLines.Select(line => AcadHelpers.GetSingleIntersection(sourceCurve, line)).ToList();
+            var (sourceCurve, targetCurve) = TryDetectSourceAndTargetCurves(curve1, curve2, notchLines);
+            var sourceNotches = GetOrderedNotches(sourceCurve, notchLines);
+
             return new Projector(sourceCurve, sourceNotches, targetCurve, targetFacetAdjustmentPercentages);
+        }
+
+        private static (Curve sourceCurve, Curve targetCurve) TryDetectSourceAndTargetCurves(Curve curve1, Curve curve2, IEnumerable<Line> notchLines)
+        {
+            var curve1NotchedCount = GetCurveNotchedCount(curve1, notchLines);
+            var curve2NotchedCount = GetCurveNotchedCount(curve2, notchLines);
+
+            if (curve1NotchedCount > 0 && curve2NotchedCount == 0)
+                return (curve1, curve2);
+            else if (curve2NotchedCount > 0 && curve1NotchedCount == 0)
+                return (curve2, curve1);
+
+            logger.Warn($"Can't autodetect source and target curves by notches intersections. Using the first curve ${curve1.Handle} as a source one.");
+            return (curve1, curve2);
+        }
+
+        private static int GetCurveNotchedCount(Curve curve1, IEnumerable<Line> notchLines) =>
+            notchLines.Select(line => AcadHelpers.GetIntersections(curve1, line).Count).Sum();
+
+        private static List<Point3d> GetOrderedNotches(Curve sourceCurve, IEnumerable<Line> notchLines)
+        {
+            return notchLines
+                .Select(line => AcadHelpers.GetSingleIntersection(sourceCurve, line))
+                .OrderBy(notch => sourceCurve.GetDistAtPoint(notch))
+                .ToList();
         }
 
         public Point3d[] Project()
