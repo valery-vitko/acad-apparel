@@ -10,7 +10,7 @@ namespace ACAD.Apparel.Notches.UI
     {
         public double SourceLength { get; set; }
         public double TargetLength { get; set; }
-        public double Adjustment => SourceLength - TargetLength;
+        public double Adjustment => TargetLength - SourceLength;
 
         public bool IsInverted { get; set; } = false;
 
@@ -19,8 +19,13 @@ namespace ACAD.Apparel.Notches.UI
         public ICommand ReadSelection { get; set; }
         public ICommand UpdateDestinationNotches { get; set; }
 
-        public void RegenerateFacets(double totalAdjustment, IList<double> sourceFacetLengths)
+        public void Regenerate(double sourceLength, double targetLength, IList<double> sourceFacetLengths)
         {
+            SourceLength = sourceLength;
+            TargetLength = targetLength;
+
+            var totalAdjustment = Adjustment;
+
             Facets.Clear();
 
             for (int i = 0; i < sourceFacetLengths.Count; i++)

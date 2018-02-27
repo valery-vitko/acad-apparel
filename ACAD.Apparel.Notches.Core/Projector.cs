@@ -89,7 +89,6 @@ namespace ACAD.Apparel.Notches
         {
             public double SourceLength { get; set; }
             public double TargetLength { get; set; }
-            public double Adjustment => SourceLength - TargetLength;
 
             public IList<double> SourceFacetLengths { get; set; }
         }

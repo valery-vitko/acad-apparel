@@ -56,8 +56,13 @@ namespace ACAD.Apparel.Notches.Plugin
                     .ToList();
 
                 var curves = objects.OfType<Polyline>().ToList();
-                if (curves.Count != 2)
+                const int polylinesNeededCount = 2;
+                if (curves.Count != polylinesNeededCount) // TODO: Add loggog
+                {
+                    logger.Error($"Error getting selection: {curves.Count} polyline(s) selected instead of {polylinesNeededCount} needed");
+                    Params.Error($"Error getting selection: {curves.Count} polyline(s) selected instead of {polylinesNeededCount} needed");
                     return;
+                }
 
                 var sourceCurve = curves[0];
                 var targetCurve = curves[1];
@@ -75,9 +80,7 @@ namespace ACAD.Apparel.Notches.Plugin
         private void UpdateParamsFromProjector()
         {
             var facetStats = projector.GetFacetStats();
-            Params.SourceLength = facetStats.SourceLength;
-            Params.TargetLength = facetStats.TargetLength;
-            Params.RegenerateFacets(facetStats.Adjustment, facetStats.SourceFacetLengths);
+            Params.Regenerate(facetStats.SourceLength, facetStats.TargetLength, facetStats.SourceFacetLengths);
         }
 
         public void UpdateDestinationNotches()
