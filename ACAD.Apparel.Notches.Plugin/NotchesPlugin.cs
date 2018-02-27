@@ -114,11 +114,11 @@ namespace ACAD.Apparel.Notches.Plugin
         {
             public event EventHandler CanExecuteChanged;
 
-            private NotchesPlugin state;
+            private NotchesPlugin plugin;
 
-            public ReadSelectionCommand(NotchesPlugin state)
+            public ReadSelectionCommand(NotchesPlugin plugin)
             {
-                this.state = state;
+                this.plugin = plugin;
             }
 
             public bool CanExecute(object parameter)
@@ -128,18 +128,18 @@ namespace ACAD.Apparel.Notches.Plugin
 
             public void Execute(object parameter)
             {
-                state.ReadSelection();
+                ExceptionHandler.ExecuteSafe(plugin.ReadSelection);
             }
         }
 
         internal class UpdateDestinationNotchesCommand : ICommand
         {
-            private NotchesPlugin state;
+            private NotchesPlugin plugin;
             private bool canExecute = false;
 
-            public UpdateDestinationNotchesCommand(NotchesPlugin state)
+            public UpdateDestinationNotchesCommand(NotchesPlugin plugin)
             {
-                this.state = state;
+                this.plugin = plugin;
             }
 
             public event EventHandler CanExecuteChanged;
@@ -161,7 +161,7 @@ namespace ACAD.Apparel.Notches.Plugin
 
             public void Execute(object parameter)
             {
-                state.UpdateDestinationNotches();
+                ExceptionHandler.ExecuteSafe(plugin.UpdateDestinationNotches);
             }
         }
     }

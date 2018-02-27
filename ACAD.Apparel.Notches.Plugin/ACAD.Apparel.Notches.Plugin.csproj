@@ -97,6 +97,7 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExceptionHandler.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="NotchesPlugin.cs" />
     <Compile Include="PluginInizializer.cs" />

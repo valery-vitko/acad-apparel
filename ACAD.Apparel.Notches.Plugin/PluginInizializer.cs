@@ -51,7 +51,7 @@ namespace ACAD.Apparel.Notches.Plugin
         }
 
         [LispFunction("ShowNotches")]
-        public void RunTests(ResultBuffer args)
+        public void ShowNotches(ResultBuffer args)
         {
             var command = new ShowNotchesParamsCommand();
             if (command.CanExecute(null))
