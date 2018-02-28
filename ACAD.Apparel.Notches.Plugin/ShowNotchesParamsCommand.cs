@@ -38,6 +38,7 @@ namespace ACAD.Apparel.Notches.Plugin
                 host.AutoSize = true;
                 host.Dock = System.Windows.Forms.DockStyle.Fill;
                 host.Child = paramsView;
+                host.BackColorTransparent = true;
 
                 PaletteSet.Add("ParamsView ElementHost", host);
 
