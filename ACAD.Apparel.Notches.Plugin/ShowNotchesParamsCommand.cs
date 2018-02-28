@@ -27,8 +27,10 @@ namespace ACAD.Apparel.Notches.Plugin
             {
                 PaletteSet = new PaletteSet("Notches")
                 {
-                    Size = new Size(500, 300),
-                    DockEnabled = DockSides.Left | DockSides.Right | DockSides.Bottom
+                    DockEnabled = DockSides.None,
+
+                    Size = new Size(270, 400),
+                    MinimumSize = new Size(270, 300)
                 };
 
                 var plugin = new NotchesPlugin();
