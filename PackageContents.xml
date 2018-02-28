@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ApplicationPackage
+  SchemaVersion="1.0"
+  AppVersion="1.0"
+  Name="Apparel Design Plugins"
+  ProductType="Application"
+  ProductCode="{4CC535AF-931E-4380-8A22-3284FB889EE3}"
+  HelpFile="./help.html"
+  OnlineDocumentation="https://github.com/valery-vitko/acad-apparel">
+
+  <CompanyDetails
+    Name="Valery Vitko"
+    Email="valery.vitko@gmail.com" />
+
+  <Components>
+    <RuntimeRequirements OS="Win32|Win64" Platform="AutoCAD*" SeriesMin="R19.0" />
+
+    <ComponentEntry
+      AppName="ApparelNotches"
+      AppDescription="Apparel design notching adjustment extension"
+      ModuleName="./Notches/ACAD.Apparel.Notches.Plugin.dll"
+      LoadOnAppearance="True"
+      LoadOnAutoCADStartup="True"
+      LoadOnCommandInvocation="True" />
+  </Components>
+</ApplicationPackage>

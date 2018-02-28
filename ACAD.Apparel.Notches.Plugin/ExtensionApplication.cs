@@ -5,11 +5,38 @@ using Autodesk.AutoCAD.Ribbon;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.Windows;
 
+[assembly: ExtensionApplication(typeof(ACAD.Apparel.Notches.Plugin.ExtensionApplication))]
+[assembly: CommandClass(typeof(ACAD.Apparel.Notches.Plugin.ExtensionApplication))]
+
 namespace ACAD.Apparel.Notches.Plugin
 {
-    public class PluginInizializer : Autodesk.AutoCAD.Runtime.IExtensionApplication
+    public class ExtensionApplication : Autodesk.AutoCAD.Runtime.IExtensionApplication
     {
         public void Initialize()
+        {
+            PrepareRibbonLoading();
+        }
+
+        private void PrepareRibbonLoading()
+        {
+            if (RibbonServices.RibbonPaletteSet == null)
+            {
+                RibbonServices.RibbonPaletteSetCreated += RibbonServices_RibbonPaletteSetCreated;
+            }
+            else
+            {
+                RibbonServices.RibbonPaletteSet.WorkspaceLoaded += Workspace_Loaded;
+                ConfigureRibbon();
+            }
+        }
+
+        private void RibbonServices_RibbonPaletteSetCreated(object sender, EventArgs e)
+        {
+            RibbonServices.RibbonPaletteSet.WorkspaceLoaded += Workspace_Loaded;
+            ConfigureRibbon();
+        }
+
+        private void Workspace_Loaded(object sender, EventArgs e)
         {
             ConfigureRibbon();
         }
@@ -19,9 +46,20 @@ namespace ACAD.Apparel.Notches.Plugin
             Console.WriteLine("Cleaning up...");
         }
 
+        [CommandMethod("Notches")]
+        public void ShowNotchesParamsCommand()
+        {
+            var command = new ShowNotchesParamsCommand();
+            if (command.CanExecute(null))
+                command.Execute(null);
+        }
+
         private void ConfigureRibbon()
         {
             var ribbonControl = ComponentManager.Ribbon;
+            if (ribbonControl == null)
+                return;
+
             var ribbonTab = ribbonControl.Tabs
                 .Where(tab => tab.AutomationName == "Plug-ins" || tab.AutomationName == "Add-ins")
                 .FirstOrDefault();
@@ -32,8 +70,15 @@ namespace ACAD.Apparel.Notches.Plugin
                 ribbonTab.Id = "ID_CUSTOMRIBBONTAB";
                 ribbonControl.Tabs.Add(ribbonTab);
             }
-            var ribbonPanelSource = new RibbonPanelSource();
-            ribbonPanelSource.Title = "Notches";
+
+            if (ribbonTab.Panels.Any(panel => panel.Source?.Name == "Notches"))
+                return;
+
+            var ribbonPanelSource = new RibbonPanelSource
+            {
+                Name = "Notches",
+                Title = "Notches"
+            };
 
             var ribbonPanel = new RibbonPanel();
             ribbonPanel.Source = ribbonPanelSource;
@@ -52,15 +97,7 @@ namespace ACAD.Apparel.Notches.Plugin
             ribbonPanel.Items.Add(showNotchesParamsButton);
 
             // For testing purposes:
-            ribbonTab.IsActive = true;
-        }
-
-        [LispFunction("ShowNotches")]
-        public void ShowNotches(ResultBuffer args)
-        {
-            var command = new ShowNotchesParamsCommand();
-            if (command.CanExecute(null))
-                command.Execute(null);
+            //ribbonTab.IsActive = true;
         }
     }
 }

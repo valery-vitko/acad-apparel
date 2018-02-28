@@ -13,6 +13,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACAD.Apparel.Notches.Core",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACAD.Apparel.Notches.Plugin", "ACAD.Apparel.Notches.Plugin\ACAD.Apparel.Notches.Plugin.csproj", "{859C52F2-462C-4BF0-80F1-ECE772BF49D0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bundle", "Bundle", "{7081C575-0BCA-43BF-B1A0-45182D70CFEA}"
+	ProjectSection(SolutionItems) = preProject
+		help.html = help.html
+		PackageContents.xml = PackageContents.xml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug (GUI)|Any CPU = Debug (GUI)|Any CPU
